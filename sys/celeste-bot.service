@@ -1,0 +1,14 @@
+[Unit]
+Description=Celeste Bot runtime
+After=multi-user.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/TomNooksDebtorsPrison/src
+ExecStart=/home/ubuntu/.pyenv/shims/python3 /home/ubuntu/TomNooksDebtorsPrison/src/celeste_bot.py  # Replace with the actual path
+Environment="CELESTE_BOT_TOKEN=MTMxMzM5ODEyNzY0NjIxNjI4NQ.GS0wAc.snVcI1aghK48mly01A7aX7vHDXNTSp3kscscsE"
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

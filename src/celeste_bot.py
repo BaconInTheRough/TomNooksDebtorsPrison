@@ -34,7 +34,7 @@ async def turnip(interaction: discord.Interaction, price: int):
 @bot.tree.command(name="stars", description="Report meteor shower")
 @app_commands.describe(stars="The meteor shower information")
 async def stars(interaction: discord.Interaction, stars: str = None):
-    if stars.lower() is None or stars.lower() == "normal":
+    if stars is None or stars.lower() == "normal":
         response = f"🌠 I'm not usually one to gossip, but I hear <@{interaction.user.id}> Island is currently experiencing a meteor shower. 🌠"
     elif stars.lower() == "heavy":
         response = f"🌠 I'm not usually one to gossip, but I hear <@{interaction.user.id}> Island is currently experiencing a **HEAVY** meteor shower. 🌠"
@@ -49,7 +49,7 @@ async def stars(interaction: discord.Interaction, stars: str = None):
 
 @bot.tree.command(name="help", description="Show help information")
 async def help_command(interaction: discord.Interaction):
-    response = f"Oh, yes, hello! I respond to the following commands:\n/turnip <price>\n/help"
+    response = f"Oh, yes, hello! I respond to the following commands:\n/stars <optional: 'normal' or 'heavy'>\n/turnip <price>\n/help"
     await interaction.response.send_message(response, ephemeral=True)
 
 bot.run(os.environ['CELESTE_BOT_TOKEN'])

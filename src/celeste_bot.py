@@ -1,38 +1,38 @@
 import discord
-import re
+from discord.ext import commands
+from discord import app_commands
 import os
+
+TURNIP_CHANNEL_ID = '1313380515671314474'
 
 intents = discord.Intents.default()
 intents.message_content = True
 
-client = discord.Client(intents=intents)
+bot = commands.Bot(command_prefix='!', intents=intents)
 
-valid_commands = [
-    '!help',
-    '!turnip',
-    ]
-
-@client.event
+@bot.event
 async def on_ready():
-    print(f'Logged on as {client.user}!')
+    print(f'Logged on as {bot.user}!')
+    try:
+        synced = await bot.tree.sync()
+        print(f'Synced {len(synced)} command(s)')
+    except Exception as e:
+        print(e)
 
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
+@bot.tree.command(name="turnip", description="Report turnip prices")
+@app_commands.describe(price="The turnip price")
+async def turnip(interaction: discord.Interaction, price: int):
+    response = f"I'm not usually one to gossip but I hear @{interaction.user.name} Island is currently reporting a turnip price of {price} bells."
+    target_channel = bot.get_channel(int(TURNIP_CHANNEL_ID))
+    if target_channel:
+        await target_channel.send(response)
+        await interaction.response.send_message(f"Turnip price reported in {target_channel.mention}", ephemeral=True)
+    else:
+        await interaction.response.send_message('Target channel not found.', ephemeral=True)
 
-    # Check if the message starts with the command prefix
-    if message.content.startswith('!turnip'):
-        # Extract the number from the message
-        match = re.search(r'\d+', message.content)
-        if match:
-            number = match.group(0)
-            response = f"I'm not usually one to gossip but I hear @{message.author.name} Island is currently reporting a turnip price of {number} bells."
-            await message.channel.send(response)
-        else:
-            await message.channel.send('Please provide a number after the command.')
-    if message.content.startswith('!help'):
-        response = f"Oh, yes, hello! I respond to: {', '.join(valid_commands)}"
-        await message.channel.send(response)
+@bot.tree.command(name="help", description="Show help information")
+async def help_command(interaction: discord.Interaction):
+    response = f"Oh, yes, hello! I respond to the following commands:\n/turnip <price>\n/help"
+    await interaction.response.send_message(response, ephemeral=True)
 
-client.run(os.environ['CELESTE_BOT_TOKEN'])
+bot.run(os.environ['CELESTE_BOT_TOKEN'])

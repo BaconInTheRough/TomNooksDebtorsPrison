@@ -21,7 +21,7 @@ async def on_ready():
 @bot.tree.command(name="turnip", description="Report turnip prices")
 @app_commands.describe(price="The turnip price")
 async def turnip(interaction: discord.Interaction, price: int):
-    response = f"I'm not usually one to gossip, but I hear <@{interaction.user.id}> Island is currently buying turnips for **{price} bells.**"
+    response = f"@everyone I'm not usually one to gossip, but I hear <@{interaction.user.id}> Island is currently buying turnips for **{price} bells.**"
     target_channel = bot.get_channel(int(TURNIP_CHANNEL_ID))
     if target_channel:
         await target_channel.send(response)
@@ -33,9 +33,9 @@ async def turnip(interaction: discord.Interaction, price: int):
 @app_commands.describe(stars="The meteor shower information")
 async def stars(interaction: discord.Interaction, stars: str = None):
     if stars is None or stars.lower() == "normal":
-        response = f"🌠 I'm not usually one to gossip, but I hear <@{interaction.user.id}> Island is currently experiencing a meteor shower. 🌠"
+        response = f"🌠 @everyone I'm not usually one to gossip, but I hear <@{interaction.user.id}> Island is currently experiencing a meteor shower. 🌠"
     elif stars.lower() == "heavy":
-        response = f"🌠 I'm not usually one to gossip, but I hear <@{interaction.user.id}> Island is currently experiencing a **HEAVY** meteor shower. 🌠"
+        response = f"🌠 @everyone I'm not usually one to gossip, but I hear <@{interaction.user.id}> Island is currently experiencing a **HEAVY** meteor shower. 🌠"
     else:
         await interaction.response.send_message("Oh, I'm sorry, I don't understand.\nYou can tell me nothing and I will say its a small meteor shower or you can say:\nnormal\nheavy", ephemeral=True)
     target_channel = bot.get_channel(int(METEOR_CHANNEL_ID))

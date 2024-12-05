@@ -1,5 +1,6 @@
 import discord
 import re
+import os
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -26,4 +27,4 @@ async def on_message(message):
         else:
             await message.channel.send('Please provide a number after the command.')
 
-client.run('key')
+client.run(os.environ['CELESTE_BOT_TOKEN'])

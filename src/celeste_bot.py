@@ -33,8 +33,8 @@ async def turnip(interaction: discord.Interaction, price: int):
         
 @bot.tree.command(name="stars", description="Report meteor shower")
 @app_commands.describe(stars="The meteor shower information")
-async def stars(interaction: discord.Interaction, stars: str):
-    if stars.lower() == "none" or stars.lower() == "normal":
+async def stars(interaction: discord.Interaction, stars: str = None):
+    if stars.lower() is None or stars.lower() == "normal":
         response = f"🌠 I'm not usually one to gossip, but I hear <@{interaction.user.id}> Island is currently experiencing a meteor shower. 🌠"
     elif stars.lower() == "heavy":
         response = f"🌠 I'm not usually one to gossip, but I hear <@{interaction.user.id}> Island is currently experiencing a **HEAVY** meteor shower. 🌠"
